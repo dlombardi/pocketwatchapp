@@ -51,9 +51,11 @@
 	
 	__webpack_require__(/*! ./ngApp.js */ 1);
 	
-	__webpack_require__(/*! ./controllers/loginCtrl */ 2);
+	__webpack_require__(/*! ./services/loginService */ 2);
 	
-	__webpack_require__(/*! ./controllers/AddLocationsCtrl */ 3);
+	__webpack_require__(/*! ./controllers/loginCtrl */ 3);
+	
+	__webpack_require__(/*! ./controllers/AddLocationsCtrl */ 4);
 
 /***/ },
 /* 1 */
@@ -82,19 +84,69 @@
 /***/ },
 /* 2 */
 /*!**************************************!*\
-  !*** ./src/controllers/loginCtrl.js ***!
+  !*** ./src/services/loginService.js ***!
   \**************************************/
 /***/ function(module, exports) {
 
 	"use strict";
 	
-	app.controller('mainController', function ($scope, pwConfig) {
+	app.service("loginService", function () {
 	
-	  $scope.message = "";
+	  console.log('userCtrl loaded');
+	
+	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
+	
+	  this.createUser = function (email, password) {
+	    ref.createUser({
+	      email: email,
+	      password: password
+	    }, function (error, userData) {
+	      if (error) {
+	        alert("Error creating user:", error);
+	      } else {
+	        alert("Successfully created user account with uid:", userData.uid);
+	      }
+	    });
+	  };
+	
+	  this.userLogin = function (email, password) {
+	    console.log(email);
+	    ref.authWithPassword({
+	      email: email,
+	      password: password
+	    }, function (error, authData) {
+	      if (error) {
+	        alert("Login Failed!", error);
+	      } else {
+	        alert("Authenticated successfully with payload:", authData);
+	      }
+	    }, {
+	      remember: "sessionOnly"
+	    });
+	  };
 	});
 
 /***/ },
 /* 3 */
+/*!**************************************!*\
+  !*** ./src/controllers/loginCtrl.js ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	app.controller('mainController', function ($scope, loginService, pwConfig) {
+	
+	  $scope.login = function () {
+	    loginService.userLogin($scope.userEmail, $scope.userName);
+	  };
+	  $scope.createUser = function () {
+	    loginService.createAccount($scope.userEmail, $scope.userName);
+	  };
+	});
+
+/***/ },
+/* 4 */
 /*!*********************************************!*\
   !*** ./src/controllers/AddLocationsCtrl.js ***!
   \*********************************************/

@@ -55,6 +55,10 @@
 	
 	__webpack_require__(/*! ./services/addLocationService */ 5);
 	
+	__webpack_require__(/*! ./services/loginService */ 2);
+	
+	__webpack_require__(/*! ./services/addLocationService */ 5);
+	
 	__webpack_require__(/*! ./controllers/loginCtrl */ 3);
 	
 	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 4);

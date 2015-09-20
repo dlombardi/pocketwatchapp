@@ -53,9 +53,11 @@
 	
 	__webpack_require__(/*! ./services/loginService */ 2);
 	
+	__webpack_require__(/*! ./services/loginService */ 2);
+	
 	__webpack_require__(/*! ./controllers/loginCtrl */ 3);
 	
-	__webpack_require__(/*! ./controllers/AddLocationsCtrl */ 4);
+	// import "./controllers/AddLocationsCtrl";
 
 /***/ },
 /* 1 */
@@ -72,11 +74,11 @@
 	  $urlRouterProvider.otherwise('#');
 	  $stateProvider.state('/', {
 	    url: '/home',
-	    templateUrl: 'pages/home.html',
+	    templateUrl: './pages/home.html',
 	    controller: 'mainController'
 	  }).state('/addLocations', {
 	    url: '/addLocations',
-	    templateUrl: 'pages/addLocations.html',
+	    templateUrl: './pages/addLocations.html',
 	    controller: 'addLocationsController'
 	  });
 	});
@@ -153,20 +155,6 @@
 	// username: $scope.userName,
 	// phone: $scope.userPhone
 	// }
-
-/***/ },
-/* 4 */
-/*!*********************************************!*\
-  !*** ./src/controllers/AddLocationsCtrl.js ***!
-  \*********************************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	app.controller('addLocationsController', function ($scope, $http, pwConfig) {
-	
-	  $scope.message = "enter your location or the location of a person you care about to receive notifications when thy experience severe weather";
-	});
 
 /***/ }
 /******/ ]);

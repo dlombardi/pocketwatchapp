@@ -1,6 +1,9 @@
-var app = angular.module('scotchApp', ['ui.router']);
+window.app = angular.module('pocketWeatherApp', ['ui.router'])
+.constant("pwConfig", {
+  "fbDomain": "https://tc-pocketwatch.firebaseio.com/"
+})
 
-app.config(function($stateProvider, $urlRouterProvider){
+.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise('#');
   $stateProvider
     .state('/', {

@@ -42,18 +42,31 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!*********************!*\
-  !*** ./src/main.js ***!
-  \*********************/
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	__webpack_require__(/*! ./ngApp.js */ 1);
+	
+	__webpack_require__(/*! ./controllers/loginCtrl */ 2);
+	
+	__webpack_require__(/*! ./controllers/AddLocationsCtrl */ 3);
+
+/***/ },
+/* 1 */
+/*!**********************!*\
+  !*** ./src/ngApp.js ***!
+  \**********************/
 /***/ function(module, exports) {
 
 	'use strict';
 	
-	var scotchApp = angular.module('scotchApp', ['ui.router']);
-	var ref = new Firebase("https://tc-pocketwatch.firebaseio.com/");
-	var Locations = ref.child('tracked-locations');
-	
-	scotchApp.config(function ($stateProvider, $urlRouterProvider) {
+	window.app = angular.module('pocketWeatherApp', ['ui.router']).constant("pwConfig", {
+	  "fbDomain": "https://tc-pocketwatch.firebaseio.com/"
+	}).config(function ($stateProvider, $urlRouterProvider) {
 	  $urlRouterProvider.otherwise('#');
 	  $stateProvider.state('/', {
 	    url: '/home',
@@ -65,12 +78,31 @@
 	    controller: 'addLocationsController'
 	  });
 	});
+
+/***/ },
+/* 2 */
+/*!**************************************!*\
+  !*** ./src/controllers/loginCtrl.js ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	"use strict";
 	
-	scotchApp.controller('mainController', function ($scope) {
+	app.controller('mainController', function ($scope, pwConfig) {
+	
 	  $scope.message = "";
 	});
+
+/***/ },
+/* 3 */
+/*!*********************************************!*\
+  !*** ./src/controllers/AddLocationsCtrl.js ***!
+  \*********************************************/
+/***/ function(module, exports) {
+
+	"use strict";
 	
-	scotchApp.controller('addLocationsController', function ($scope, $http) {
+	app.controller('addLocationsController', function ($scope, $http, pwConfig) {
 	
 	  $scope.message = "enter your location or the location of a person you care about to receive notifications when thy experience severe weather";
 	});

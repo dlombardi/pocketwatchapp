@@ -55,6 +55,10 @@
 	
 	__webpack_require__(/*! ./services/addLocationService */ 3);
 	
+	__webpack_require__(/*! ./services/loginService */ 2);
+	
+	__webpack_require__(/*! ./services/addLocationService */ 3);
+	
 	__webpack_require__(/*! ./controllers/loginCtrl */ 4);
 	
 	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 5);
@@ -147,7 +151,7 @@
 	    var phone;
 	    ref.on("value", function (snapshot) {
 	      var data = snapshot.val();
-	      console.log(data.phone);
+	      console.log(data);
 	      console.log(ref);
 	    }, function (errorObject) {
 	      console.log("The read failed: " + errorObject.code);

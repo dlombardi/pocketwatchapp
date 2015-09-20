@@ -6,7 +6,7 @@ app.service("addLocationService", function() {
     var phone;
     ref.on("value", function(snapshot) {
       var data = snapshot.val();
-      console.log(data.phone);
+      console.log(data);
       console.log(ref);
     }, function (errorObject) {
       console.log("The read failed: " + errorObject.code);

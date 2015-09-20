@@ -6,34 +6,34 @@ app.service("loginService", function() {
 
 
 
-  this.createUser = function(email, password) {
+  this.createAccount = function(email, password, name, phone) {
+    console.log(email);
     ref.createUser({
       email    : email,
       password : password
     }, function(error, userData) {
       if (error) {
-        alert("Error creating user:", error);
+        console.log("Error creating user:", error);
       } else {
-        alert("Successfully created user account with uid:", userData.uid);
+        console.log("Successfully created user account with uid:", userData);
+        ref.set(phone);
       }
     });
   };
 
-
   this.userLogin = function(email, password){
-    console.log(email);
     ref.authWithPassword({
-        email    : email,
-        password : password
-      }, function(error, authData) {
-        if (error) {
-          alert("Login Failed!", error);
-        } else {
-          alert("Authenticated successfully with payload:", authData);
-        }
-      },{
-        remember: "sessionOnly"
-      });
-    };
+      email    : email,
+      password : password
+    }, function(error, authData) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(authData);
+      }
+    }, {
+      remember: "sessionOnly"
+    });
+  };
 
 });

@@ -96,29 +96,30 @@
 	
 	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
 	
-	  this.createUser = function (email, password) {
+	  this.createAccount = function (email, password, name, phone) {
+	    console.log(email);
 	    ref.createUser({
 	      email: email,
 	      password: password
 	    }, function (error, userData) {
 	      if (error) {
-	        alert("Error creating user:", error);
+	        console.log("Error creating user:", error);
 	      } else {
-	        alert("Successfully created user account with uid:", userData.uid);
+	        console.log("Successfully created user account with uid:", userData);
+	        ref.set(phone);
 	      }
 	    });
 	  };
 	
 	  this.userLogin = function (email, password) {
-	    console.log(email);
 	    ref.authWithPassword({
 	      email: email,
 	      password: password
 	    }, function (error, authData) {
 	      if (error) {
-	        alert("Login Failed!", error);
+	        console.log(error);
 	      } else {
-	        alert("Authenticated successfully with payload:", authData);
+	        console.log(authData);
 	      }
 	    }, {
 	      remember: "sessionOnly"
@@ -137,13 +138,21 @@
 	
 	app.controller('mainController', function ($scope, loginService, pwConfig) {
 	
-	  $scope.login = function () {
-	    loginService.userLogin($scope.userEmail, $scope.userName);
-	  };
 	  $scope.createUser = function () {
-	    loginService.createAccount($scope.userEmail, $scope.userName);
+	    loginService.createAccount($scope.userEmail, $scope.userPassword, $scope.userName, $scope.userPhone);
+	  };
+	
+	  $scope.login = function () {
+	    loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
 	  };
 	});
+	
+	// {
+	// email:$scope.userEmail,
+	// password: $scope.userPassword,
+	// username: $scope.userName,
+	// phone: $scope.userPhone
+	// }
 
 /***/ },
 /* 4 */

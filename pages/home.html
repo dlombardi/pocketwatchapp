@@ -1,9 +1,64 @@
   <h1>Welcome to Pocketwatch</h1>
   <h2>For people who care about their friends.</h2>
-  userName<input ng-model ='userName'>
-  email<input ng-model = 'userEmail'>  
-  phone<input ng-model = 'userPhone'>
-  <button ng-click = 'login()' >Login</button>
-  <button ng-click = 'createAccount()' >Create Account</button>
+  <div class="row">
+        <div class="col-md-12">
+            <div class="pr-wrap">
+                <div class="pass-reset">
+                    <label>
+                        Enter the email you signed up with</label>
+                    <input type="email" placeholder="Email" />
+                    <input type="submit" value="Submit" class="pass-reset-submit btn btn-success btn-sm" />
+                </div>
+            </div>
+            <div class="wrap">
+              <p class="form-title">
+                Login
+              </p>
+              <form class="login">
+                <input type="text" ng-model="userLoginEmail" placeholder="Email" />
+                <input type="password" ng-model="userLoginPassword" placeholder="Password" />
+              </form>
+              <input type="submit" ng-click="login()" value="login" class="btn btn-success btn-sm" />
+            </div>
+            <div class="wrap">
+                <p class="form-title">
+                    Create Account</p>
+                <form class="login">
+                <input type="text" ng-model="userName" placeholder="Username" />
+                <input type="text" ng-model="userEmail" placeholder="Email" />
+                <input type="password" ng-model="userPassword" placeholder="Password" />
+                <input type="text" ng-model="userPhone" placeholder="Phone" />
+                <input type="submit" ng-click="createUser()" value="Register" class="btn btn-success btn-sm" />
+                <div class="remember-forgot">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" />
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 forgot-pass-content">
+                            <a href="javascription:void(0)" class="forgot-pass">Forgot Password</a>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  <!-- <div class="row">
+    <div id="tableWrapper">
+      <table id="loginTable">
+        <tr><td>Username</td><td><input ng-model ='userName'></td></tr>
+        <tr><td>Email</td><td><input ng-model ='userEmail'></td></tr>
+        <tr><td>Phone</td><td><input ng-model = 'userPhone'></td></tr>
+        <tr><td>Password</td><td><input ng-model = 'userPassword'></td></tr>
+      </table>
+    </div>
+  </div> -->
+  <!-- <button ng-click = 'login()' >Login</button>
+  <button ng-click = 'createUser()' >Create Account</button> -->
 
   <p>{{ message }}</p>

@@ -8,10 +8,3 @@ app.controller('mainController', function($scope, loginService, pwConfig){
     loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
   };
 });
-
-// {
-  // email:$scope.userEmail,
-  // password: $scope.userPassword,
-  // username: $scope.userName,
-  // phone: $scope.userPhone
-// }

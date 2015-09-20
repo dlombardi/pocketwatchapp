@@ -16,7 +16,7 @@ app.service("loginService", function() {
         console.log("Error creating user:", error);
       } else {
         console.log("Successfully created user account with uid:", userData);
-        ref.set(phone);
+        ref.child(name).set(phone);
       }
     });
   };

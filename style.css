@@ -10,8 +10,9 @@ body
 }
 
 .jumbotron {
-  background-image: url(https://pixabay.com/get/a558efc457f36789ce4a/1442724320/edinburgh-737637.jpg?direct);
-  background-size: 100% 50%;
+  background-image: url(https://pixabay.com/get/c9fee28c203c3c6ece9b/1442738892/edinburgh-737637.jpg?direct);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 

@@ -53,11 +53,11 @@
 	
 	__webpack_require__(/*! ./services/loginService */ 2);
 	
-	__webpack_require__(/*! ./services/addLocationService */ 3);
+	__webpack_require__(/*! ./services/addLocationService */ 5);
 	
-	__webpack_require__(/*! ./controllers/loginCtrl */ 4);
+	__webpack_require__(/*! ./controllers/loginCtrl */ 3);
 	
-	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 5);
+	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 4);
 
 /***/ },
 /* 1 */
@@ -132,26 +132,6 @@
 
 /***/ },
 /* 3 */
-/*!********************************************!*\
-  !*** ./src/services/addLocationService.js ***!
-  \********************************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	app.service("addLocationService", function () {
-	
-	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com/users/phone");
-	
-	  this.storeZip = function (zip) {
-	    var zipcode = zip;
-	    var newZipCodes = ref.push();
-	    ref.push({ zipcodes: [zip] });
-	  };
-	});
-
-/***/ },
-/* 4 */
 /*!**************************************!*\
   !*** ./src/controllers/loginCtrl.js ***!
   \**************************************/
@@ -178,7 +158,7 @@
 	// }
 
 /***/ },
-/* 5 */
+/* 4 */
 /*!*********************************************!*\
   !*** ./src/controllers/addLocationsCtrl.js ***!
   \*********************************************/
@@ -190,6 +170,26 @@
 	
 	  $scope.addLocation = function () {
 	    addLocationService.storeZip($scope.zipcode);
+	  };
+	});
+
+/***/ },
+/* 5 */
+/*!********************************************!*\
+  !*** ./src/services/addLocationService.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	app.service("addLocationService", function () {
+	
+	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com/users/phone");
+	
+	  this.storeZip = function (zip) {
+	    var zipcode = zip;
+	    var newZipCodes = ref.push();
+	    ref.push({ zipcodes: [zip] });
 	  };
 	});
 

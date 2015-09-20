@@ -16,25 +16,25 @@ app.service('SMSService', function(city_name, alert){
 });
 
 
-var warnings = [];
-function scana(){
-	var arr = [94539, 82301]
-	arr.forEach(function(item) {
-		getWarnings(item)}
-	);
-	function getWarnings(zip) {
-		// var warnings = [];
-		var promise = $.getJSON("http://api.wunderground.com/api/7a10e87424a9a29a/alerts/q/" + zip + ".json");
-		promise.success(function(alerts) {
-			console.log(alerts)
-			if(typeof alerts.alerts[0].description !== 'undefined'){
-				warnings.push({zip: alerts.alerts[0].description});
-				console.log(alerts.alerts[0].tz_long)
-				// sendMessage(/*zip, alerts.alerts[0].description, phone*/);
-			}
-		});
-		promise.fail(function(error) {
-			console.log('error:', error);
-		});
-	}
-}
+// var warnings = [];
+// function scana(){
+// 	var arr = [94539, 82301]
+// 	arr.forEach(function(item) {
+// 		getWarnings(item)}
+// 	);
+// 	function getWarnings(zip) {
+// 		// var warnings = [];
+// 		var promise = $.getJSON("http://api.wunderground.com/api/7a10e87424a9a29a/alerts/q/" + zip + ".json");
+// 		promise.success(function(alerts) {
+// 			console.log(alerts)
+// 			if(typeof alerts.alerts[0].description !== 'undefined'){
+// 				warnings.push({zip: alerts.alerts[0].description});
+// 				console.log(alerts.alerts[0].tz_long)
+// 				// sendMessage(/*zip, alerts.alerts[0].description, phone*/);
+// 			}
+// 		});
+// 		promise.fail(function(error) {
+// 			console.log('error:', error);
+// 		});
+// 	}
+// }

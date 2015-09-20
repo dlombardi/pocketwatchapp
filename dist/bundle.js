@@ -53,11 +53,11 @@
 	
 	__webpack_require__(/*! ./services/loginService */ 2);
 	
-	__webpack_require__(/*! ./services/loginService */ 2);
+	__webpack_require__(/*! ./services/addLocationService */ 3);
 	
-	__webpack_require__(/*! ./controllers/loginCtrl */ 3);
+	__webpack_require__(/*! ./controllers/loginCtrl */ 4);
 	
-	// import "./controllers/AddLocationsCtrl";
+	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 5);
 
 /***/ },
 /* 1 */
@@ -74,11 +74,11 @@
 	  $urlRouterProvider.otherwise('#');
 	  $stateProvider.state('/', {
 	    url: '/home',
-	    templateUrl: './pages/home.html',
+	    templateUrl: '/pages/home.html',
 	    controller: 'mainController'
 	  }).state('/addLocations', {
 	    url: '/addLocations',
-	    templateUrl: './pages/addLocations.html',
+	    templateUrl: '/pages/addLocations.html',
 	    controller: 'addLocationsController'
 	  });
 	});
@@ -108,7 +108,8 @@
 	        console.log("Error creating user:", error);
 	      } else {
 	        console.log("Successfully created user account with uid:", userData);
-	        ref.child(name).set(phone);
+	        var usersRef = ref.child('users');
+	        usersRef.push({ phone: phone });
 	      }
 	    });
 	  };
@@ -131,6 +132,26 @@
 
 /***/ },
 /* 3 */
+/*!********************************************!*\
+  !*** ./src/services/addLocationService.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	app.service("addLocationService", function () {
+	
+	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com/users/phone");
+	
+	  this.storeZip = function (zip) {
+	    var zipcode = zip;
+	    var newZipCodes = ref.push();
+	    ref.push({ zipcodes: [zip] });
+	  };
+	});
+
+/***/ },
+/* 4 */
 /*!**************************************!*\
   !*** ./src/controllers/loginCtrl.js ***!
   \**************************************/
@@ -155,6 +176,22 @@
 	// username: $scope.userName,
 	// phone: $scope.userPhone
 	// }
+
+/***/ },
+/* 5 */
+/*!*********************************************!*\
+  !*** ./src/controllers/addLocationsCtrl.js ***!
+  \*********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	app.controller('addLocationsController', function ($scope, $http, addLocationService) {
+	
+	  $scope.addLocation = function () {
+	    addLocationService.storeZip($scope.zipcode);
+	  };
+	});
 
 /***/ }
 /******/ ]);

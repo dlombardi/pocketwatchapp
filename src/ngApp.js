@@ -8,12 +8,12 @@ window.app = angular.module('pocketWeatherApp', ['ui.router'])
   $stateProvider
     .state('/', {
       url: '/home',
-      templateUrl : './pages/home.html',
+      templateUrl : '/pages/home.html',
       controller : 'mainController'
     })
     .state('/addLocations', {
       url: '/addLocations',
-      templateUrl : './pages/addLocations.html',
+      templateUrl : '/pages/addLocations.html',
       controller : 'addLocationsController'
     })
 });

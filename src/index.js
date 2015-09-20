@@ -3,7 +3,7 @@
 import "./ngApp.js";
 
 import "./services/loginService";
-import "./services/loginService";
+import "./services/addLocationService";
 
 import "./controllers/loginCtrl";
-// import "./controllers/AddLocationsCtrl";
+import "./controllers/addLocationsCtrl";

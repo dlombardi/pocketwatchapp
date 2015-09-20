@@ -1,10 +1,26 @@
 app.service('getAlert', function($http, arr, alert){
-this.getWarnings = function(zip) {
-  $http.get(`http://api.wunderground.com/api/7a10e87424a9a29a/alerts/q/${zip}.json`)
-  .then(function(data){
-    console.log(data)
-    // if
-  })
+this.getWarnings = function(zips, cb) {
+
+  var alerts = [];
+  async.each(zips, function(zip, callback){
+    $http.get(`http://api.wunderground.com/api/7a10e87424a9a29a/alerts/q/${zip}.json`)
+    .then(function(data){
+      let dataAlerts = data.alerts;
+      if(dataAlerts.length){
+        var alert = {
+          description: dataAlerts[0].description,
+          message: dataAlerts[0].message,
+          date: dataAlerts[0].date,
+        }
+        cb(null, alert);
+      } else {
+        cb(null)
+      }
+    })
+    .catch(function(err) {
+      cb(err);
+    })
+  }, callback);
 }
 // );
 

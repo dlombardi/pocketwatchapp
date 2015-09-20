@@ -61,7 +61,9 @@
 	
 	__webpack_require__(/*! ./controllers/loginCtrl */ 4);
 	
-	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 5);
+	__webpack_require__(/*! ./controllers/navCtrl */ 5);
+	
+	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 6);
 
 /***/ },
 /* 1 */
@@ -97,14 +99,17 @@
 	"use strict";
 	
 	app.service("loginService", function () {
+	  var _this2 = this;
 	
 	  console.log('userCtrl loaded');
 	
-	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
+	  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
 	
 	  this.createAccount = function (email, password, name, phone) {
+	    var _this = this;
+	
 	    console.log(email);
-	    ref.createUser({
+	    this.ref.createUser({
 	      email: email,
 	      password: password
 	    }, function (error, userData) {
@@ -112,14 +117,22 @@
 	        console.log("Error creating user:", error);
 	      } else {
 	        console.log("Successfully created user account with uid:", userData);
-	        var usersRef = ref.child('users');
-	        usersRef.push({ phone: phone });
+	        var usersRef = _this.ref.child('users');
+	        usersRef.child(userData.uid).child('phone').set(phone);
 	      }
 	    });
 	  };
 	
+	  this.currentAuthData = function (cb) {
+	    _this2.ref.onAuth(cb);
+	  };
+	
+	  this.userLogout = function () {
+	    _this2.ref.unauth();
+	  };
+	
 	  this.userLogin = function (email, password) {
-	    ref.authWithPassword({
+	    this.ref.authWithPassword({
 	      email: email,
 	      password: password
 	    }, function (error, authData) {
@@ -128,8 +141,6 @@
 	      } else {
 	        console.log(authData);
 	      }
-	    }, {
-	      remember: "sessionOnly"
 	    });
 	  };
 	});
@@ -141,24 +152,32 @@
   \********************************************/
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
-	app.service("addLocationService", function () {
+	app.service("addLocationService", function (loginService) {
 	
-	  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com/users/");
+	  var ref = loginService.ref;
+	  var currentUid;
+	
+	  ref.onAuth(function (authData) {
+	    console.log('location service userdata', authData);
+	    currentUid = authData.uid;
+	  });
 	
 	  this.storeZip = function (zip) {
 	    var phone;
-	    ref.on("value", function (snapshot) {
-	      var data = snapshot.val();
-	      console.log(data);
-	      console.log(ref);
-	    }, function (errorObject) {
-	      console.log("The read failed: " + errorObject.code);
-	    });
-	    var zipcode = zip;
-	    var newZipCodes = ref.push();
-	    ref.push({ zipcodes: [zip] });
+	    var userRef = ref.child('users').child(currentUid);
+	    userRef.child('zips').push(zip);
+	    // ref.on("value", function(snapshot) {
+	    //   var data = snapshot.val();
+	    //   console.log(data);
+	    //   console.log(ref);
+	    // }, function (errorObject) {
+	    //   console.log("The read failed: " + errorObject.code);
+	    // });
+	    // var zipcode = zip;
+	    // var newZipCodes = ref.push();
+	    // ref.push({zipcodes: [zip]});
 	  };
 	});
 
@@ -184,6 +203,23 @@
 
 /***/ },
 /* 5 */
+/*!************************************!*\
+  !*** ./src/controllers/navCtrl.js ***!
+  \************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	app.controller('navCtrl', function ($scope, $state, loginService) {
+	
+	  $scope.logout = function () {
+	    loginService.userLogout();
+	    $state.go('home');
+	  };
+	});
+
+/***/ },
+/* 6 */
 /*!*********************************************!*\
   !*** ./src/controllers/addLocationsCtrl.js ***!
   \*********************************************/

@@ -2,28 +2,34 @@ app.service("loginService", function() {
 
   console.log('userCtrl loaded');
 
-  var ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
-
-
+  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
 
   this.createAccount = function(email, password, name, phone) {
     console.log(email);
-    ref.createUser({
+    this.ref.createUser({
       email    : email,
       password : password
-    }, function(error, userData) {
+    }, (error, userData) => {
       if (error) {
         console.log("Error creating user:", error);
       } else {
         console.log("Successfully created user account with uid:", userData);
-        var usersRef = ref.child('users');
-        usersRef.push({phone: phone});
+        var usersRef = this.ref.child('users');
+        usersRef.child(userData.uid).child('phone').set(phone);
       }
     });
   };
 
+  this.currentAuthData = cb => {
+    this.ref.onAuth(cb);
+  };
+
+  this.userLogout = () => {
+    this.ref.unauth();
+  };
+
   this.userLogin = function(email, password){
-    ref.authWithPassword({
+    this.ref.authWithPassword({
       email    : email,
       password : password
     }, function(error, authData) {
@@ -32,8 +38,6 @@ app.service("loginService", function() {
       } else {
         console.log(authData);
       }
-    }, {
-      remember: "sessionOnly"
     });
   };
 

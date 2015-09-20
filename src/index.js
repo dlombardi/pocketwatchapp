@@ -6,4 +6,4 @@ import "./services/loginService";
 import "./services/loginService";
 
 import "./controllers/loginCtrl";
-// import "./controllers/AddLocationsCtrl";
+import "./controllers/addLocationsCtrl";

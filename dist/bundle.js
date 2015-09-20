@@ -57,7 +57,7 @@
 	
 	__webpack_require__(/*! ./controllers/loginCtrl */ 3);
 	
-	// import "./controllers/AddLocationsCtrl";
+	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 4);
 
 /***/ },
 /* 1 */
@@ -155,6 +155,20 @@
 	// username: $scope.userName,
 	// phone: $scope.userPhone
 	// }
+
+/***/ },
+/* 4 */
+/*!*********************************************!*\
+  !*** ./src/controllers/addLocationsCtrl.js ***!
+  \*********************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	app.controller('addLocationsController', function ($scope, $http, pwConfig) {
+	
+	  $scope.message = "enter your location or the location of a person you care about to receive notifications when thy experience severe weather";
+	});
 
 /***/ }
 /******/ ]);

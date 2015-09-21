@@ -3,6 +3,7 @@
 }
 
 body{
+    color: white;
     background-size: cover;
     padding: 0;
     margin: 0;
@@ -38,6 +39,10 @@ p.form-title
     text-transform: uppercase;
     letter-spacing: 4px;
 }
+
+::-webkit-input-placeholder{
+    color: black;
+  }
 
 form
 {

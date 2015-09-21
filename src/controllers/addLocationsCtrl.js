@@ -2,5 +2,6 @@ app.controller('addLocationsController', function($scope, $http, addLocationServ
 
   $scope.addLocation = function(){
     addLocationService.storeZip($scope.zipcode);
+    $scope.zipcode = "";
   }
 });

@@ -20,6 +20,7 @@ app.service("loginService", function($state) {
           alert("Account created successfully, now please login before continuing.");
       }
     });
+
   };
 
   this.currentAuthData = cb => {

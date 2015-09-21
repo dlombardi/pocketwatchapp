@@ -14,10 +14,10 @@ app.service("loginService", function($state) {
         alert("There's been an error. Please try again.");
         return;
       } else {
-        alert("Successfully created user account.");
-        $state.go("./pages/addLocations");
+        // alert("Successfully created user account.");
         var usersRef = this.ref.child('users');
         usersRef.child(userData.uid).child('phone').set(phone);
+          alert("Account created successfully, now please login before continuing.");
       }
     });
   };
@@ -38,7 +38,7 @@ app.service("loginService", function($state) {
       if (error) {
         alert("There has been an error. Please try again.");
       } else {
-        $state.go(".pages/addLocations");
+      $state.go("addLocations");
       }
     });
   };

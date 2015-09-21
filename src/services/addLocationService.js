@@ -2,7 +2,7 @@ app.service("addLocationService", function(loginService) {
 
 
   var ref = loginService.ref;
-  var currentUid; 
+  var currentUid;
 
 
 
@@ -12,6 +12,7 @@ app.service("addLocationService", function(loginService) {
   });
 
   this.storeZip = function(zip){
+    console.log(zip);
     var phone;
     var userRef = ref.child('users').child(currentUid);
     userRef.child('zips').push(zip);

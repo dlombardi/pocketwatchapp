@@ -1,6 +1,6 @@
 window.app = angular.module('pocketWeatherApp', ['ui.router'])
 .constant("pwConfig", {
-  "fbDomain": "https://tc-pocketwatch.firebaseio.com";
+  "fbDomain": "https://tc-pocketwatch.firebaseio.com"
 })
 
 .config(function($stateProvider, $urlRouterProvider){

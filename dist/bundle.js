@@ -49,7 +49,7 @@
 
 	'use strict';
 	
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./ngApp.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	__webpack_require__(/*! ./ngApp.js */ 1);
 	
 	__webpack_require__(/*! ./services/loginService */ 2);
 	
@@ -66,7 +66,30 @@
 	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 6);
 
 /***/ },
-/* 1 */,
+/* 1 */
+/*!**********************!*\
+  !*** ./src/ngApp.js ***!
+  \**********************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	window.app = angular.module('pocketWeatherApp', ['ui.router']).constant("pwConfig", {
+	  "fbDomain": "https://tc-pocketwatch.firebaseio.com"
+	}).config(function ($stateProvider, $urlRouterProvider) {
+	  $urlRouterProvider.otherwise('home');
+	  $stateProvider.state('home', {
+	    url: '/home',
+	    templateUrl: '/pages/home.html',
+	    controller: 'mainController'
+	  }).state('addLocations', {
+	    url: '/addLocations',
+	    templateUrl: '/pages/addLocations.html',
+	    controller: 'addLocationsController'
+	  });
+	});
+
+/***/ },
 /* 2 */
 /*!**************************************!*\
   !*** ./src/services/loginService.js ***!

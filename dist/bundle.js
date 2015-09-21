@@ -104,7 +104,7 @@
 	  console.log('userCtrl loaded');
 	
 	  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
-	
+	  var userEmail, userPassword;
 	  this.createAccount = function (email, password, name, phone) {
 	    var _this = this;
 	
@@ -120,7 +120,8 @@
 	        // alert("Successfully created user account.");
 	        var usersRef = _this.ref.child('users');
 	        usersRef.child(userData.uid).child('phone').set(phone);
-	        alert("Account created successfully, now please login before continuing.");
+	        alert("Account created successfully");
+	        _this.userLogin(email, password);
 	      }
 	    });
 	  };

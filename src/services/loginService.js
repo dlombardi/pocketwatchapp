@@ -3,7 +3,7 @@ app.service("loginService", function($state) {
   console.log('userCtrl loaded');
 
   this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
-
+  var userEmail, userPassword;
   this.createAccount = function(email, password, name, phone) {
     this.ref.createUser({
       email    : email,
@@ -17,7 +17,8 @@ app.service("loginService", function($state) {
         // alert("Successfully created user account.");
         var usersRef = this.ref.child('users');
         usersRef.child(userData.uid).child('phone').set(phone);
-          alert("Account created successfully, now please login before continuing.");
+        alert("Account created successfully");
+        this.userLogin(email, password);
       }
     });
 
@@ -39,7 +40,7 @@ app.service("loginService", function($state) {
       if (error) {
         alert("There has been an error. Please try again.");
       } else {
-      $state.go("addLocations");
+        $state.go("addLocations");
       }
     });
   };

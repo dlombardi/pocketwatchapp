@@ -75,7 +75,7 @@
 	'use strict';
 	
 	window.app = angular.module('pocketWeatherApp', ['ui.router']).constant("pwConfig", {
-	  "fbDomain": "https://tc-pocketwatch.firebaseio.com/"
+	  "fbDomain": FIREBASE_REF
 	}).config(function ($stateProvider, $urlRouterProvider) {
 	  $urlRouterProvider.otherwise('home');
 	  $stateProvider.state('home', {
@@ -103,7 +103,7 @@
 	
 	  console.log('userCtrl loaded');
 	
-	  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
+	  this.ref = new Firebase(FIREBASE_REF);
 	
 	  this.createAccount = function (email, password, name, phone) {
 	    var _this = this;
@@ -141,7 +141,7 @@
 	      if (error) {
 	        alert("There has been an error. Please try again.");
 	      } else {
-	        $state.go("addLocations");
+	        $state.go(".pages/addLocations");
 	      }
 	    });
 	  };

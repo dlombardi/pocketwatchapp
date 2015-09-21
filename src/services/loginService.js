@@ -38,7 +38,7 @@ app.service("loginService", function($state) {
       if (error) {
         alert("There has been an error. Please try again.");
       } else {
-        $state.go("addLocations");
+        $state.go(".pages/addLocations");
       }
     });
   };

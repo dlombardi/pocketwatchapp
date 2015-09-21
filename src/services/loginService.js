@@ -1,19 +1,21 @@
-app.service("loginService", function() {
+app.service("loginService", function($state) {
 
   console.log('userCtrl loaded');
 
   this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
 
   this.createAccount = function(email, password, name, phone) {
-    console.log(email);
     this.ref.createUser({
       email    : email,
       password : password
     }, (error, userData) => {
       if (error) {
         console.log("Error creating user:", error);
+        alert("There's been an error. Please try again.");
+        return;
       } else {
-        console.log("Successfully created user account with uid:", userData);
+        alert("Successfully created user account.");
+        $state.go("./pages/addLocations");
         var usersRef = this.ref.child('users');
         usersRef.child(userData.uid).child('phone').set(phone);
       }
@@ -34,9 +36,9 @@ app.service("loginService", function() {
       password : password
     }, function(error, authData) {
       if (error) {
-        console.log(error);
+        alert("There has been an error. Please try again.");
       } else {
-        console.log(authData);
+        $state.go("addLocations");
       }
     });
   };

@@ -1,12 +1,24 @@
-app.controller('mainController', function($scope, loginService, pwConfig){
+app.controller('mainController', function($scope, ValidateService, loginService, pwConfig){
 
   $scope.createUser = function(){
-    loginService.createAccount($scope.userEmail, $scope.userPassword, $scope.userName, $scope.userPhone);
-    $scope.userEmail = "";
-    $scope.userPassword = "";
-    $scope.userName = "";
-    $scope.userPhone = "";
+    let isValidEmail = ValidateService.validateEmail($scope.userEmail);
+    let phoneNumber = ValidateService.validateNumber($scope.userPhone);
+    if(phoneNumber && isValidEmail){
+      loginService.createAccount($scope.userEmail,
+        $scope.userPassword,
+        $scope.userName,
+        phoneNumber
+      );
+      $scope.userEmail = "";
+      $scope.userPassword = "";
+      $scope.userName = "";
+      $scope.userPhone = "";
+    }
+    else{
+      alert("Invalid entry or entries. Please check email and phone number and try again!")
+    }
   };
+
 
   $scope.login = function(){
     loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);

@@ -59,11 +59,13 @@
 	
 	__webpack_require__(/*! ./services/addLocationService */ 3);
 	
-	__webpack_require__(/*! ./controllers/loginCtrl */ 4);
+	__webpack_require__(/*! ./services/validate.js */ 4);
 	
-	__webpack_require__(/*! ./controllers/navCtrl */ 5);
+	__webpack_require__(/*! ./controllers/loginCtrl */ 5);
 	
-	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 6);
+	__webpack_require__(/*! ./controllers/navCtrl */ 6);
+	
+	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 7);
 
 /***/ },
 /* 1 */
@@ -187,6 +189,34 @@
 
 /***/ },
 /* 4 */
+/*!**********************************!*\
+  !*** ./src/services/validate.js ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	app.service("ValidateService", function ($state) {
+	  this.validateNumber = function (number) {
+	    if (number.match(/[a-z]/g) || typeof number === 'undefined') {
+	      return false;
+	    }
+	    number = number.replace(/\D/g, '');
+	    if (number.length === 10 || number.length === 11 && number.charAt(0) === '1') {
+	      return number;
+	    }
+	    return false;
+	  };
+	  this.validateEmail = function (email) {
+	    if (/(\w+\.)*\w+@((\w+\.)+\w+)/.test(email)) {
+	      return true;
+	    }
+	    return false;
+	  };
+	});
+
+/***/ },
+/* 5 */
 /*!**************************************!*\
   !*** ./src/controllers/loginCtrl.js ***!
   \**************************************/
@@ -194,14 +224,20 @@
 
 	"use strict";
 	
-	app.controller('mainController', function ($scope, loginService, pwConfig) {
+	app.controller('mainController', function ($scope, ValidateService, loginService, pwConfig) {
 	
 	  $scope.createUser = function () {
-	    loginService.createAccount($scope.userEmail, $scope.userPassword, $scope.userName, $scope.userPhone);
-	    $scope.userEmail = "";
-	    $scope.userPassword = "";
-	    $scope.userName = "";
-	    $scope.userPhone = "";
+	    var isValidEmail = ValidateService.validateEmail($scope.userEmail);
+	    var phoneNumber = ValidateService.validateNumber($scope.userPhone);
+	    if (phoneNumber && isValidEmail) {
+	      loginService.createAccount($scope.userEmail, $scope.userPassword, $scope.userName, phoneNumber);
+	      $scope.userEmail = "";
+	      $scope.userPassword = "";
+	      $scope.userName = "";
+	      $scope.userPhone = "";
+	    } else {
+	      alert("Invalid entry or entries. Please check email and phone number and try again!");
+	    }
 	  };
 	
 	  $scope.login = function () {
@@ -212,7 +248,7 @@
 	});
 
 /***/ },
-/* 5 */
+/* 6 */
 /*!************************************!*\
   !*** ./src/controllers/navCtrl.js ***!
   \************************************/
@@ -229,7 +265,7 @@
 	});
 
 /***/ },
-/* 6 */
+/* 7 */
 /*!*********************************************!*\
   !*** ./src/controllers/addLocationsCtrl.js ***!
   \*********************************************/

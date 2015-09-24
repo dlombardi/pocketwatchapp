@@ -18,17 +18,17 @@
         <form class="login">
           <input type="text" ng-model="userLoginEmail" placeholder="Email" />
           <input type="password" ng-model="userLoginPassword" placeholder="Password" />
+          <input type="submit" ng-click="login()" value="login" class="btn btn-success btn-sm" />
         </form>
-        <input type="submit" ng-click="login()" value="login" class="btn btn-success btn-sm" />
       </div>
       <div class="wrap">
         <p class="form-title">
           Create Account</p>
           <form class="login">
-            <input type="text" ng-model="userName" placeholder="Username" />
-            <input type="text" ng-model="userEmail" placeholder="Email" />
-            <input type="password" ng-model="userPassword" placeholder="Password" />
-            <input type="text" ng-model="userPhone" placeholder="Phone" />
+            <input type="text" ng-model="userName" placeholder="Username" required=true/>
+            <input type="text" ng-model="userEmail" placeholder="Email" required=true/>
+            <input type="password" ng-model="userPassword" placeholder="Password" required=true/>
+            <input type="text" ng-model="userPhone" placeholder="Phone" required=true/>
             <input type="submit" ng-click="createUser()" value="Register" class="btn btn-success btn-sm" />
             <!-- <div class="remember-forgot"> -->
               <!-- <div class="row">

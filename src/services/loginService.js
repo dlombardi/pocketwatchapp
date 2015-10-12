@@ -1,7 +1,5 @@
 app.service("loginService", function($state, $rootScope) {
 
-  console.log('userCtrl loaded');
-
   this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
   var userEmail, userPassword;
   this.createAccount = function(email, password, name, phone) {

@@ -103,8 +103,6 @@
 	app.service("loginService", function ($state, $rootScope) {
 	  var _this2 = this;
 	
-	  console.log('userCtrl loaded');
-	
 	  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
 	  var userEmail, userPassword;
 	  this.createAccount = function (email, password, name, phone) {
@@ -161,8 +159,8 @@
 	
 	app.service("addLocationService", function (loginService) {
 	
-	  // var ref = loginService.ref;
-	  // var currentUid;
+	  var ref = loginService.ref;
+	  var currentUid;
 	
 	  // ref.onAuth(function(authData) {
 	  //   console.log('location service userdata', authData);
@@ -185,7 +183,6 @@
 	  // var newZipCodes = ref.push();
 	  // ref.push({zipcodes: [zip]});
 	  // };
-	
 	});
 
 /***/ },
@@ -258,7 +255,6 @@
 	'use strict';
 	
 	app.controller('navCtrl', function ($scope, $rootScope, $state, loginService) {
-	  console.log($rootScope.isLoggedIn);
 	  $scope.logout = function () {
 	    $rootScope.isLoggedIn = false;
 	    loginService.userLogout();
@@ -277,7 +273,6 @@
 	
 	app.controller('addLocationsController', function ($scope, $rootScope, $state, $http, addLocationService) {
 	  if (!$rootScope.isLoggedIn) {
-	    console.log('rock you like a hurricane');
 	    $state.go('home');
 	  }
 	  $scope.addLocation = function () {

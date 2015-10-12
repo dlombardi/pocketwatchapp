@@ -1,8 +1,8 @@
 app.service("addLocationService", function(loginService) {
 
 
-  // var ref = loginService.ref;
-  // var currentUid;
+  var ref = loginService.ref;
+  var currentUid;
 
 
 

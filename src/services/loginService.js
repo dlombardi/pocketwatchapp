@@ -1,4 +1,4 @@
-app.service("loginService", function($state) {
+app.service("loginService", function($state, $rootScope) {
 
   console.log('userCtrl loaded');
 
@@ -14,7 +14,6 @@ app.service("loginService", function($state) {
         alert("There's been an error. Please try again.");
         return;
       } else {
-        // alert("Successfully created user account.");
         var usersRef = this.ref.child('users');
         usersRef.child(userData.uid).child('phone').set(phone);
         alert("Account created successfully");
@@ -40,6 +39,7 @@ app.service("loginService", function($state) {
       if (error) {
         alert("There has been an error. Please try again.");
       } else {
+        $rootScope.isLoggedIn = true;
         $state.go("addLocations");
       }
     });

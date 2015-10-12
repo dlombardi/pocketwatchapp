@@ -100,7 +100,7 @@
 
 	"use strict";
 	
-	app.service("loginService", function ($state) {
+	app.service("loginService", function ($state, $rootScope) {
 	  var _this2 = this;
 	
 	  console.log('userCtrl loaded');
@@ -119,7 +119,6 @@
 	        alert("There's been an error. Please try again.");
 	        return;
 	      } else {
-	        // alert("Successfully created user account.");
 	        var usersRef = _this.ref.child('users');
 	        usersRef.child(userData.uid).child('phone').set(phone);
 	        alert("Account created successfully");
@@ -144,6 +143,7 @@
 	      if (error) {
 	        alert("There has been an error. Please try again.");
 	      } else {
+	        $rootScope.isLoggedIn = true;
 	        $state.go("addLocations");
 	      }
 	    });
@@ -157,34 +157,35 @@
   \********************************************/
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	app.service("addLocationService", function (loginService) {
 	
-	  var ref = loginService.ref;
-	  var currentUid;
+	  // var ref = loginService.ref;
+	  // var currentUid;
 	
-	  ref.onAuth(function (authData) {
-	    console.log('location service userdata', authData);
-	    currentUid = authData.uid;
-	  });
+	  // ref.onAuth(function(authData) {
+	  //   console.log('location service userdata', authData);
+	  //   currentUid = authData.uid;
+	  // });
 	
-	  this.storeZip = function (zip) {
-	    console.log(zip);
-	    var phone;
-	    var userRef = ref.child('users').child(currentUid);
-	    userRef.child('zips').push(zip);
-	    // ref.on("value", function(snapshot) {
-	    //   var data = snapshot.val();
-	    //   console.log(data);
-	    //   console.log(ref);
-	    // }, function (errorObject) {
-	    //   console.log("The read failed: " + errorObject.code);
-	    // });
-	    // var zipcode = zip;
-	    // var newZipCodes = ref.push();
-	    // ref.push({zipcodes: [zip]});
-	  };
+	  // this.storeZip = function(zip){
+	  //   console.log(zip);
+	  //   var phone;
+	  //   var userRef = ref.child('users').child(currentUid);
+	  //   userRef.child('zips').push(zip);
+	  // ref.on("value", function(snapshot) {
+	  //   var data = snapshot.val();
+	  //   console.log(data);
+	  //   console.log(ref);
+	  // }, function (errorObject) {
+	  //   console.log("The read failed: " + errorObject.code);
+	  // });
+	  // var zipcode = zip;
+	  // var newZipCodes = ref.push();
+	  // ref.push({zipcodes: [zip]});
+	  // };
+	
 	});
 
 /***/ },
@@ -224,8 +225,8 @@
 
 	"use strict";
 	
-	app.controller('mainController', function ($scope, ValidateService, loginService, pwConfig) {
-	
+	app.controller('mainController', function ($scope, $rootScope, ValidateService, loginService, pwConfig) {
+	  $rootScope.isLoggedIn = false;
 	  $scope.createUser = function () {
 	    var isValidEmail = ValidateService.validateEmail($scope.userEmail);
 	    var phoneNumber = ValidateService.validateNumber($scope.userPhone);
@@ -256,9 +257,10 @@
 
 	'use strict';
 	
-	app.controller('navCtrl', function ($scope, $state, loginService) {
-	
+	app.controller('navCtrl', function ($scope, $rootScope, $state, loginService) {
+	  console.log($rootScope.isLoggedIn);
 	  $scope.logout = function () {
+	    $rootScope.isLoggedIn = false;
 	    loginService.userLogout();
 	    $state.go('home');
 	  };
@@ -271,10 +273,13 @@
   \*********************************************/
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
-	app.controller('addLocationsController', function ($scope, $http, addLocationService) {
-	
+	app.controller('addLocationsController', function ($scope, $rootScope, $state, $http, addLocationService) {
+	  if (!$rootScope.isLoggedIn) {
+	    console.log('rock you like a hurricane');
+	    $state.go('home');
+	  }
 	  $scope.addLocation = function () {
 	    addLocationService.storeZip($scope.zipcode);
 	    $scope.zipcode = "";

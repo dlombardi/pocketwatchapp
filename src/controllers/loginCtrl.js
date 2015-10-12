@@ -1,5 +1,5 @@
-app.controller('mainController', function($scope, ValidateService, loginService, pwConfig){
-
+app.controller('mainController', function($scope, $rootScope, ValidateService, loginService, pwConfig){
+  $rootScope.isLoggedIn = false;
   $scope.createUser = function(){
     let isValidEmail = ValidateService.validateEmail($scope.userEmail);
     let phoneNumber = ValidateService.validateNumber($scope.userPhone);

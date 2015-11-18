@@ -54,8 +54,6 @@
 
 	__webpack_require__(2);
 
-	__webpack_require__(3);
-
 	__webpack_require__(4);
 
 	__webpack_require__(5);
@@ -95,7 +93,6 @@
 	  var _this2 = this;
 
 	  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
-	  var userEmail, userPassword;
 	  this.createAccount = function (email, password, phoneNumber) {
 	    var _this = this;
 
@@ -109,6 +106,8 @@
 	      } else {
 	        alert("Account created successfully");
 	        _this.userLogin(email, password);
+	        _this.createMongoUser(email, phoneNumber);
+	        console.log(email, phoneNumber);
 	      }
 	    });
 	  };
@@ -126,6 +125,7 @@
 	      if (error) {
 	        alert("There has been an error. Please try again.");
 	      } else {
+	        $rootScope.email = email;
 	        $rootScope.isLoggedIn = true;
 	        $state.go("addLocations");
 	      }
@@ -133,7 +133,12 @@
 	  };
 
 	  this.createMongoUser = function (email, phoneNumber) {
-	    return $http.post('/user', { email: email, phoneNumber: phoneNumber });
+	    var body = { email: email, phoneNumber: phoneNumber };
+	    $http.post("/user/" + email + "/" + phoneNumber, body).then(function (data) {
+	      console.log(data);
+	    })["catch"](function (err) {
+	      console.log(err);
+	    });
 	  };
 	});
 
@@ -143,31 +148,13 @@
 
 	"use strict";
 
-	app.service("addLocationService", function (loginService) {
+	app.service("addLocationService", function (ValidateService) {
 
-	  $http.put('/user', { zipcode: zipcode });
-
-	  // ref.onAuth(function(authData) {
-	  //   console.log('location service userdata', authData);
-	  //   currentUid = authData.uid;
-	  // });
-
-	  // this.storeZip = function(zip){
-	  //   console.log(zip);
-	  //   var phone;
-	  //   var userRef = ref.child('users').child(currentUid);
-	  //   userRef.child('zips').push(zip);
-	  // ref.on("value", function(snapshot) {
-	  //   var data = snapshot.val();
-	  //   console.log(data);
-	  //   console.log(ref);
-	  // }, function (errorObject) {
-	  //   console.log("The read failed: " + errorObject.code);
-	  // });
-	  // var zipcode = zip;
-	  // var newZipCodes = ref.push();
-	  // ref.push({zipcodes: [zip]});
-	  // };
+	  this.storeZip = function (zipcode) {
+	    if (ValidateService.validateZipCode) {
+	      return $http.put('/user', { zipcode: zipcode });
+	    }
+	  };
 	});
 
 /***/ },
@@ -176,7 +163,7 @@
 
 	'use strict';
 
-	app.service("ValidateService", function ($state) {
+	app.service("ValidateService", function ($http) {
 	  this.validateNumber = function (number) {
 	    if (number.match(/[a-z]/g) || typeof number === 'undefined') {
 	      return false;
@@ -193,6 +180,10 @@
 	    }
 	    return false;
 	  };
+	  this.validateZipCode = function (zipcode) {
+	    return (/\d{5}/.test(zipcode)
+	    );
+	  };
 	});
 
 /***/ },
@@ -207,7 +198,7 @@
 	    var isValidEmail = ValidateService.validateEmail($scope.userEmail);
 	    var phoneNumber = ValidateService.validateNumber($scope.userPhone);
 	    if (phoneNumber && isValidEmail) {
-	      loginService.createAccount($scope.userEmail, $scope.userPassword, $scope.userName, phoneNumber);
+	      loginService.createAccount($scope.userEmail, $scope.userPassword, phoneNumber);
 	      $scope.userEmail = "";
 	      $scope.userPassword = "";
 	      $scope.userName = "";
@@ -244,13 +235,16 @@
 
 	'use strict';
 
-	app.controller('addLocationsController', function ($scope, $rootScope, $state, $http, addLocationService) {
+	app.controller('addLocationsController', function ($scope, $rootScope, $state, $http, addLocationService, ValidateService) {
 	  if (!$rootScope.isLoggedIn) {
 	    $state.go('home');
 	  }
+
 	  $scope.addLocation = function () {
-	    addLocationService.storeZip($scope.zipcode);
-	    $scope.zipcode = "";
+	    if (ValidateService.validateZipCode($scope.zipcode)) {
+	      addLocationService.storeZip($scope.zipcode).then(function (data) {})['catch'](function (err) {});
+	      $scope.zipcode = "";
+	    } else alert("Please enter a five digit zipcode");
 	  };
 	});
 

@@ -1,4 +1,4 @@
-app.service("ValidateService", function($state) {
+app.service("ValidateService", function($http) {
   this.validateNumber = (number)=> {
     if (number.match(/[a-z]/g) ||(typeof number) === 'undefined') {
       return false;
@@ -14,5 +14,8 @@ app.service("ValidateService", function($state) {
       return true;
     }
     return false;
+  }
+  this.validateZipCode = (zipcode) => {
+    return /\d{5}/.test(zipcode)
   }
 })

@@ -6,7 +6,6 @@ app.controller('mainController', function($scope, $rootScope, ValidateService, l
     if(phoneNumber && isValidEmail){
       loginService.createAccount($scope.userEmail,
         $scope.userPassword,
-        $scope.userName,
         phoneNumber
       );
       $scope.userEmail = "";

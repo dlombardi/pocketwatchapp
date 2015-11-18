@@ -5,7 +5,6 @@ import "./ngApp.js";
 import "./services/loginService";
 import "./services/addLocationService";
 import "./services/loginService";
-import "./services/addLocationService";
 import './services/validate.js'
 
 import "./controllers/loginCtrl";

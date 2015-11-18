@@ -3,6 +3,7 @@
 var morgan = require('morgan');
 var Firebase = require("firebase");
 require('mongoose').connect(process.env.MONGO_URI || "mongodb://localhost/pocketwatch");
+var User = require('./models/userSchema')
 
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_AUTHTOKEN = process.env.TWILIO_AUTHTOKEN;
@@ -19,28 +20,27 @@ app.get('*', function(req, res) {
 
 app.listen(process.env.PORT || 3000);
 
-// function sendAlerts(){
-//
-//   var ref = new Firebase(FIREBASE_REF);
-//
-//   var userData = {};
-//
-//   ref.on("value", function(snapshot) {
-//     var users = snapshot.val().users;
-//     Object.keys(users).forEach(function(key) {
-//       var user = users[key];
-//       userData[user.phone] = [];
-//       if(user.zips){
-//         Object.keys(user.zips).forEach(function(key){
-//           userData[user.phone].push(user.zips[key]);
-//         });
-//       }
-//     });
-//   }, function (errorObject) {
-//     console.log("The read failed: " + errorObject.code);
-//   });
-//
-// };
+
+
+let checkForAlerts = () => {
+  User.find({}, (err, users)=>{
+    user.forEach(user => {
+      user.zipCodes.forEach(zip =>{
+        
+      })
+    })
+  })
+
+}
+
+function sendAlerts(){
+  User.find({}, (err, users)=>{
+    user.forEach(user => {
+
+    })
+  })
+
+};
 //
 // setInterval(sendAlerts, 1000 * 60 * 60 * 24);
 //

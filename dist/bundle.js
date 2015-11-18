@@ -132,7 +132,8 @@
 
 	  this.createMongoUser = function (email, phoneNumber) {
 	    var body = { email: email, phoneNumber: phoneNumber };
-	    return $http.post("/user/" + email + "/" + phoneNumber, body);
+	    return $;
+	    tp.post("/user/" + email + "/" + phoneNumber, body);
 	  };
 	});
 
@@ -148,6 +149,10 @@
 	    if (ValidateService.validateZipCode) {
 	      return $http.put("/user/" + email + "/" + zipcode);
 	    }
+	  };
+
+	  this.getZips = function (email) {
+	    return $http.get("/user/" + email);
 	  };
 	});
 
@@ -232,20 +237,28 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
-	app.controller('addLocationsController', function ($scope, $rootScope, $state, $http, addLocationService, ValidateService) {
+	app.controller('addLocationsController', function ($scope, $rootScope, $state, addLocationService, ValidateService) {
+
+	  var getZips = function getZips() {
+	    addLocationService.getZips($rootScope.email).then(function (data) {
+	      $scope.zipCodes = data.data.zipCodes;
+	    })['catch'](function (err) {
+	      alert(err.data);
+	    });
+	  };
+
 	  if (!$rootScope.isLoggedIn) {
 	    $state.go('home');
-	  }
-
+	  } else getZips();
 	  $scope.addLocation = function () {
 	    if (ValidateService.validateZipCode($scope.zipcode)) {
 	      addLocationService.storeZip($scope.zipcode, $rootScope.email).then(function (data) {
-	        console.log(data);
+	        $scope.zipCodes = data.data.zipCodes;
 	        $scope.zipcode = "";
 	      })['catch'](function (err) {
-	        console.log(err);
+	        alert(err.data);
 	      });
 	    } else alert("Please enter a five digit zipcode");
 	  };

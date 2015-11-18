@@ -3,7 +3,6 @@ let User = require('./models/userSchema');
 let router = require('express').Router();
 
 router.post('/:email/:phoneNumber', (req, res)=> {
-  console.log(req.params);
   User.create(req.params, (err, user)=>{
     if (err) return res.status(499).send(err);
 
@@ -14,13 +13,11 @@ router.post('/:email/:phoneNumber', (req, res)=> {
 router.get('/:email', (req, res) => {
   User.findOne({email: req.params.email}, (err, user)=>{
     if (err) return res.status(499).send(err);
-
-    res.send(user.zipcodes);
+    res.send(user);
   });
 });
 
 router.put('/:email/:zipcode', (req, res) => {
-  console.log(req.params);
   User.findOne({email: req.params.email}, (err, user) =>{
     if (err) return res.status(499).send(err);
 
@@ -31,7 +28,7 @@ router.put('/:email/:zipcode', (req, res) => {
       user.save((err)=>{
         if (err) return res.status(499).send(err);
 
-        res.send(user.zipCodes);
+        res.send(user);
       });
     }
     else res.status(499).send("Zip code already watched!");

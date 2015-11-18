@@ -1,7 +1,13 @@
 <div id="addLocations" class="jumbotron text-center">
-  <h2>Look up a location</h2>
+  <h2>Add a location</h2>
   <form class="login">
     <input type="text" ng-model="zipcode" placeholder="Zip-Code"/>
     <button type="button" class="btn btn-default" ng-click = 'addLocation()'>Add</button>
   </form>
+  <div>
+    <h2>Tracked Locations:</h2>
+    <p ng-repeat="zip in zipCodes">
+      {{zip}}
+    </p>
+  </div>
 </div>

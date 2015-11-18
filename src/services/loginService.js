@@ -40,7 +40,8 @@ app.service("loginService", function($state, $rootScope, $http) {
 
   this.createMongoUser = (email, phoneNumber) => {
     let body = {email, phoneNumber}
-    return $http.post(`/user/${email}/${phoneNumber}`, body)
+    return $
+    tp.post(`/user/${email}/${phoneNumber}`, body)
   }
-
+  
 });

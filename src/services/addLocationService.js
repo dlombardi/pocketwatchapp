@@ -5,4 +5,9 @@ app.service("addLocationService", function(ValidateService, $http) {
       return $http.put(`/user/${email}/${zipcode}`)
     }
   }
+  
+  this.getZips = (email) => {
+    return $http.get(`/user/${email}`)
+  }
+
 });

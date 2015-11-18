@@ -1,3 +1,5 @@
+"use strict";
+
 app.controller('mainController', function($scope, $rootScope, ValidateService, loginService, pwConfig){
   $rootScope.isLoggedIn = false;
   $scope.createUser = function(){
@@ -16,16 +18,16 @@ app.controller('mainController', function($scope, $rootScope, ValidateService, l
       .catch(err =>{
         console.log(err);
       })
-  }
-  else{
-    alert("Invalid entry or entries. Please check email and phone number and try again!")
-  }
-};
+    }
 
-
-$scope.login = function(){
-  loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
-  $scope.userLoginEmail = "";
-  $scope.userLoginPassword = "";
-};
+    else{
+      alert("Invalid entry or entries. Please check email and phone number and try again!")
+    }
+  };
+  
+  $scope.login = function(){
+    loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
+    $scope.userLoginEmail = "";
+    $scope.userLoginPassword = "";
+  };
 });

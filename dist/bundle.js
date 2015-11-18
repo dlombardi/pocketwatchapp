@@ -1,81 +1,75 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
+
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-/******/
+
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/
+
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-/******/
+
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/
+
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
-/******/
+
+
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-/******/
+
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
+
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
-	__webpack_require__(/*! ./ngApp.js */ 1);
-	
-	__webpack_require__(/*! ./services/loginService */ 2);
-	
-	__webpack_require__(/*! ./services/addLocationService */ 3);
-	
-	__webpack_require__(/*! ./services/loginService */ 2);
-	
-	__webpack_require__(/*! ./services/addLocationService */ 3);
-	
-	__webpack_require__(/*! ./services/validate.js */ 4);
-	
-	__webpack_require__(/*! ./controllers/loginCtrl */ 5);
-	
-	__webpack_require__(/*! ./controllers/navCtrl */ 6);
-	
-	__webpack_require__(/*! ./controllers/addLocationsCtrl */ 7);
+
+	__webpack_require__(1);
+
+	__webpack_require__(2);
+
+	__webpack_require__(3);
+
+	__webpack_require__(2);
+
+	__webpack_require__(3);
+
+	__webpack_require__(4);
+
+	__webpack_require__(5);
+
+	__webpack_require__(6);
+
+	__webpack_require__(7);
 
 /***/ },
 /* 1 */
-/*!**********************!*\
-  !*** ./src/ngApp.js ***!
-  \**********************/
 /***/ function(module, exports) {
 
 	'use strict';
-	
+
 	window.app = angular.module('pocketWeatherApp', ['ui.router']).constant("pwConfig", {
 	  "fbDomain": "https://tc-pocketwatch.firebaseio.com"
 	}).config(function ($stateProvider, $urlRouterProvider) {
@@ -93,46 +87,37 @@
 
 /***/ },
 /* 2 */
-/*!**************************************!*\
-  !*** ./src/services/loginService.js ***!
-  \**************************************/
 /***/ function(module, exports) {
 
 	"use strict";
-	
-	app.service("loginService", function ($state, $rootScope) {
+
+	app.service("loginService", function ($state, $rootScope, $http) {
 	  var _this2 = this;
-	
+
 	  this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
 	  var userEmail, userPassword;
-	  this.createAccount = function (email, password, name, phone) {
+	  this.createAccount = function (email, password, phoneNumber) {
 	    var _this = this;
-	
+
 	    this.ref.createUser({
 	      email: email,
 	      password: password
 	    }, function (error, userData) {
 	      if (error) {
-	        console.log("Error creating user:", error);
+	        console.log(error);
 	        alert("There's been an error. Please try again.");
-	        return;
 	      } else {
-	        var usersRef = _this.ref.child('users');
-	        usersRef.child(userData.uid).child('phone').set(phone);
 	        alert("Account created successfully");
 	        _this.userLogin(email, password);
 	      }
 	    });
 	  };
-	
-	  this.currentAuthData = function (cb) {
-	    _this2.ref.onAuth(cb);
-	  };
-	
+
 	  this.userLogout = function () {
 	    _this2.ref.unauth();
+	    $rootScope.email = null;
 	  };
-	
+
 	  this.userLogin = function (email, password) {
 	    this.ref.authWithPassword({
 	      email: email,
@@ -146,27 +131,27 @@
 	      }
 	    });
 	  };
+
+	  this.createMongoUser = function (email, phoneNumber) {
+	    return $http.post('/user', { email: email, phoneNumber: phoneNumber });
+	  };
 	});
 
 /***/ },
 /* 3 */
-/*!********************************************!*\
-  !*** ./src/services/addLocationService.js ***!
-  \********************************************/
 /***/ function(module, exports) {
 
 	"use strict";
-	
+
 	app.service("addLocationService", function (loginService) {
-	
-	  var ref = loginService.ref;
-	  var currentUid;
-	
+
+	  $http.put('/user', { zipcode: zipcode });
+
 	  // ref.onAuth(function(authData) {
 	  //   console.log('location service userdata', authData);
 	  //   currentUid = authData.uid;
 	  // });
-	
+
 	  // this.storeZip = function(zip){
 	  //   console.log(zip);
 	  //   var phone;
@@ -187,13 +172,10 @@
 
 /***/ },
 /* 4 */
-/*!**********************************!*\
-  !*** ./src/services/validate.js ***!
-  \**********************************/
 /***/ function(module, exports) {
 
 	'use strict';
-	
+
 	app.service("ValidateService", function ($state) {
 	  this.validateNumber = function (number) {
 	    if (number.match(/[a-z]/g) || typeof number === 'undefined') {
@@ -215,13 +197,10 @@
 
 /***/ },
 /* 5 */
-/*!**************************************!*\
-  !*** ./src/controllers/loginCtrl.js ***!
-  \**************************************/
 /***/ function(module, exports) {
 
 	"use strict";
-	
+
 	app.controller('mainController', function ($scope, $rootScope, ValidateService, loginService, pwConfig) {
 	  $rootScope.isLoggedIn = false;
 	  $scope.createUser = function () {
@@ -237,7 +216,7 @@
 	      alert("Invalid entry or entries. Please check email and phone number and try again!");
 	    }
 	  };
-	
+
 	  $scope.login = function () {
 	    loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
 	    $scope.userLoginEmail = "";
@@ -247,13 +226,10 @@
 
 /***/ },
 /* 6 */
-/*!************************************!*\
-  !*** ./src/controllers/navCtrl.js ***!
-  \************************************/
 /***/ function(module, exports) {
 
 	'use strict';
-	
+
 	app.controller('navCtrl', function ($scope, $rootScope, $state, loginService) {
 	  $scope.logout = function () {
 	    $rootScope.isLoggedIn = false;
@@ -264,13 +240,10 @@
 
 /***/ },
 /* 7 */
-/*!*********************************************!*\
-  !*** ./src/controllers/addLocationsCtrl.js ***!
-  \*********************************************/
 /***/ function(module, exports) {
 
 	'use strict';
-	
+
 	app.controller('addLocationsController', function ($scope, $rootScope, $state, $http, addLocationService) {
 	  if (!$rootScope.isLoggedIn) {
 	    $state.go('home');
@@ -283,4 +256,3 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=bundle.js.map

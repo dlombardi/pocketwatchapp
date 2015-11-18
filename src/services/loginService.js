@@ -1,32 +1,25 @@
-app.service("loginService", function($state, $rootScope) {
+app.service("loginService", function($state, $rootScope, $http) {
 
   this.ref = new Firebase("https://tc-pocketwatch.firebaseio.com");
   var userEmail, userPassword;
-  this.createAccount = function(email, password, name, phone) {
+  this.createAccount = function(email, password, phoneNumber) {
     this.ref.createUser({
       email    : email,
       password : password
     }, (error, userData) => {
       if (error) {
-        console.log("Error creating user:", error);
+        console.log(error);
         alert("There's been an error. Please try again.");
-        return;
       } else {
-        var usersRef = this.ref.child('users');
-        usersRef.child(userData.uid).child('phone').set(phone);
         alert("Account created successfully");
         this.userLogin(email, password);
       }
     });
-
-  };
-
-  this.currentAuthData = cb => {
-    this.ref.onAuth(cb);
   };
 
   this.userLogout = () => {
     this.ref.unauth();
+    $rootScope.email = null;
   };
 
   this.userLogin = function(email, password){
@@ -42,5 +35,9 @@ app.service("loginService", function($state, $rootScope) {
       }
     });
   };
+
+  this.createMongoUser = (email, phoneNumber) => {
+    return $http.post('/user', {email, phoneNumber})
+  }
 
 });

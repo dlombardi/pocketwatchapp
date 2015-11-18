@@ -1,12 +1,13 @@
 <div id="home" class="jumbotron text-center">
-<h1>Welcome to Pocketwatch</h1>
-<h2>For people who care about their friends.</h2>
-<div class="row">
-  <div class="col-md-12">
-    <div class="pr-wrap">
-      <div class="pass-reset">
-        <label>
-          Enter the email you signed up with</label>
+  <h1>Welcome to Pocketwatch</h1>
+  <h2>For people who care about their friends.</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="pr-wrap">
+        <div class="pass-reset">
+          <label>
+            Enter the email you signed up with
+          </label>
           <input type="email" placeholder="Email" />
           <input type="submit" value="Submit" class="pass-reset-submit btn btn-success btn-sm" />
         </div>
@@ -23,29 +24,15 @@
       </div>
       <div class="wrap">
         <p class="form-title">
-          Create Account</p>
-          <form class="login">
-            <input type="text" ng-model="userName" placeholder="Username" required=true/>
-            <input type="text" ng-model="userEmail" placeholder="Email" required=true/>
-            <input type="password" ng-model="userPassword" placeholder="Password" required=true/>
-            <input type="text" ng-model="userPhone" placeholder="Phone" required=true/>
-            <input type="submit" ng-click="createUser()" value="Register" class="btn btn-success btn-sm" />
-            <!-- <div class="remember-forgot"> -->
-              <!-- <div class="row">
-                <div class="col-md-6">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" />
-                      Remember Me
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-6 forgot-pass-content">
-                  <a href="javascription:void(0)" class="forgot-pass">Forgot Password</a>
-                </div>
-              </div> -->
-            <!-- </div> -->
-          </form>
-        </div>
+          Create Account
+        </p>
+        <form class="login">
+          <input type="text" ng-model="userEmail" placeholder="Email" required=true/>
+          <input type="password" ng-model="userPassword" placeholder="Password" required=true/>
+          <input type="text" ng-model="userPhone" placeholder="Phone" required=true/>
+          <input type="submit" ng-click="createUser()" value="Register" class="btn btn-success btn-sm" />
+        </form>
       </div>
     </div>
+  </div>
+</div>

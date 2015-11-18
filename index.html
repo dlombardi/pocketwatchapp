@@ -3,6 +3,7 @@
 <head>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css"/>
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
   <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:400italic|IM+Fell+French+Canon:400italic|Playball' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
@@ -22,15 +23,11 @@
         <li><a href="#" ng-show="isLoggedIn"ng-click='logout()'><i class="fa fa-sign-out"></i> Logout</a></li>
         <li><a href="#" ng-show="isLoggedIn" ui-sref = "addLocations"><i class="fa fa-shield"></i>Add Locations</a></li>
       </ul>
-
-      <!-- ng-show={{isLoggedIn}}  -->
     </div>
     </nav>
   </header>
   <div id="main">
     <div ui-view>
-
-
   <script src="dist/bundle.js" type='text/javascript'></script>
 </body>
 </html>

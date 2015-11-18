@@ -101,13 +101,11 @@
 	      password: password
 	    }, function (error, userData) {
 	      if (error) {
-	        console.log(error);
 	        alert("There's been an error. Please try again.");
 	      } else {
 	        alert("Account created successfully");
 	        _this.userLogin(email, password);
 	        _this.createMongoUser(email, phoneNumber);
-	        console.log(email, phoneNumber);
 	      }
 	    });
 	  };
@@ -134,11 +132,7 @@
 
 	  this.createMongoUser = function (email, phoneNumber) {
 	    var body = { email: email, phoneNumber: phoneNumber };
-	    $http.post("/user/" + email + "/" + phoneNumber, body).then(function (data) {
-	      console.log(data);
-	    })["catch"](function (err) {
-	      console.log(err);
-	    });
+	    return $http.post("/user/" + email + "/" + phoneNumber, body);
 	  };
 	});
 
@@ -148,11 +142,11 @@
 
 	"use strict";
 
-	app.service("addLocationService", function (ValidateService) {
+	app.service("addLocationService", function (ValidateService, $http) {
 
-	  this.storeZip = function (zipcode) {
+	  this.storeZip = function (zipcode, email) {
 	    if (ValidateService.validateZipCode) {
-	      return $http.put('/user', { zipcode: zipcode });
+	      return $http.put("/user/" + email + "/" + zipcode);
 	    }
 	  };
 	});
@@ -198,11 +192,16 @@
 	    var isValidEmail = ValidateService.validateEmail($scope.userEmail);
 	    var phoneNumber = ValidateService.validateNumber($scope.userPhone);
 	    if (phoneNumber && isValidEmail) {
-	      loginService.createAccount($scope.userEmail, $scope.userPassword, phoneNumber);
-	      $scope.userEmail = "";
-	      $scope.userPassword = "";
-	      $scope.userName = "";
-	      $scope.userPhone = "";
+	      loginService.createMongoUser($scope.userEmail, phoneNumber).then(function (data) {
+	        console.log(data);
+	        loginService.createAccount($scope.userEmail, $scope.userPassword, phoneNumber);
+	        $scope.userEmail = "";
+	        $scope.userPassword = "";
+	        $scope.userName = "";
+	        $scope.userPhone = "";
+	      })["catch"](function (err) {
+	        console.log(err);
+	      });
 	    } else {
 	      alert("Invalid entry or entries. Please check email and phone number and try again!");
 	    }
@@ -242,8 +241,12 @@
 
 	  $scope.addLocation = function () {
 	    if (ValidateService.validateZipCode($scope.zipcode)) {
-	      addLocationService.storeZip($scope.zipcode).then(function (data) {})['catch'](function (err) {});
-	      $scope.zipcode = "";
+	      addLocationService.storeZip($scope.zipcode, $rootScope.email).then(function (data) {
+	        console.log(data);
+	        $scope.zipcode = "";
+	      })['catch'](function (err) {
+	        console.log(err);
+	      });
 	    } else alert("Please enter a five digit zipcode");
 	  };
 	});

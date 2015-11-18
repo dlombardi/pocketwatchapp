@@ -5,13 +5,13 @@ app.controller('addLocationsController', function($scope, $rootScope, $state, $h
 
   $scope.addLocation = function(){
     if (ValidateService.validateZipCode($scope.zipcode)){
-      addLocationService.storeZip($scope.zipcode)
+      addLocationService.storeZip($scope.zipcode, $rootScope.email)
       .then(data => {
-
-      }).catch(err=>{
-      
-      })
+        console.log(data);
       $scope.zipcode = "";
+      }).catch(err=>{
+        console.log(err);
+      })
     }
     else alert("Please enter a five digit zipcode")
   }

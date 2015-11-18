@@ -11,21 +11,22 @@ router.post('/:email/:phoneNumber', (req, res)=> {
   });
 });
 
-router.get('/', (req, res) => {
-  User.findOne({email: req.cookies.email}, (err, user)=>{
+router.get('/:email', (req, res) => {
+  User.findOne({email: req.params.email}, (err, user)=>{
     if (err) return res.status(499).send(err);
 
     res.send(user.zipcodes);
   });
 });
 
-router.put('/', (req, res) => {
-  User.findOne({email: req.cookies.email}, (err, user) =>{
+router.put('/:email/:zipcode', (req, res) => {
+  console.log(req.params);
+  User.findOne({email: req.params.email}, (err, user) =>{
     if (err) return res.status(499).send(err);
 
-    let zipcode = req.body.zipcode
+    let zipcode = req.params.zipcode
     if (user.zipCodes.indexOf(zipcode) === -1) {
-      uer.zipCodes.push(zipcode);
+      user.zipCodes.push(zipcode);
 
       user.save((err)=>{
         if (err) return res.status(499).send(err);

@@ -9,13 +9,11 @@ app.service("loginService", function($state, $rootScope, $http) {
       password : password
     }, (error, userData) => {
       if (error) {
-        console.log(error);
         alert("There's been an error. Please try again.");
       } else {
         alert("Account created successfully");
         this.userLogin(email, password);
         this.createMongoUser(email, phoneNumber);
-        console.log(email, phoneNumber);
       }
     });
   };
@@ -42,12 +40,7 @@ app.service("loginService", function($state, $rootScope, $http) {
 
   this.createMongoUser = (email, phoneNumber) => {
     let body = {email, phoneNumber}
-    $http.post(`/user/${email}/${phoneNumber}`, body)
-    .then(data => {
-      console.log(data);
-    }).catch(err =>{
-      console.log(err);
-    })
+    return $http.post(`/user/${email}/${phoneNumber}`, body)
   }
 
 });

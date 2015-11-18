@@ -4,24 +4,28 @@ app.controller('mainController', function($scope, $rootScope, ValidateService, l
     let isValidEmail = ValidateService.validateEmail($scope.userEmail);
     let phoneNumber = ValidateService.validateNumber($scope.userPhone);
     if(phoneNumber && isValidEmail){
-      loginService.createAccount($scope.userEmail,
-        $scope.userPassword,
-        phoneNumber
-      );
-      $scope.userEmail = "";
-      $scope.userPassword = "";
-      $scope.userName = "";
-      $scope.userPhone = "";
-    }
-    else{
-      alert("Invalid entry or entries. Please check email and phone number and try again!")
-    }
-  };
+      loginService.createMongoUser($scope.userEmail, phoneNumber)
+      .then(data => {
+        console.log(data);
+        loginService.createAccount($scope.userEmail, $scope.userPassword, phoneNumber)
+        $scope.userEmail = "";
+        $scope.userPassword = "";
+        $scope.userName = "";
+        $scope.userPhone = "";
+      })
+      .catch(err =>{
+        console.log(err);
+      })
+  }
+  else{
+    alert("Invalid entry or entries. Please check email and phone number and try again!")
+  }
+};
 
 
-  $scope.login = function(){
-    loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
-    $scope.userLoginEmail = "";
-    $scope.userLoginPassword = "";
-  };
+$scope.login = function(){
+  loginService.userLogin($scope.userLoginEmail, $scope.userLoginPassword);
+  $scope.userLoginEmail = "";
+  $scope.userLoginPassword = "";
+};
 });
